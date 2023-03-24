@@ -17,20 +17,24 @@ Navigate to the repository directory.
 
 For development:
 
+.. code-block:: bash
     pip install -e ".[complete]"
 
 otherwise
 
+.. code-block:: bash
     pip install ".[complete]"
 
 To only install special functionality, e.g. only vtk support in addition to core dependencies, run:
 
+.. code-block:: bash
     pip install (-e) ".[docs]"
 
 Usage
 -----
 From the console:
 
+.. code-block:: bash
         xrviz -f <path-to-netcdf-file>
 
 
