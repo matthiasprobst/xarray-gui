@@ -1,11 +1,15 @@
+import argparse
+import pathlib
 import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QHBoxLayout, QVBoxLayout, QWidget, QLabel, QComboBox, QSlider, \
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QHBoxLayout, QVBoxLayout, QWidget, QLabel, QComboBox, QSlider,
                              QDoubleSpinBox, QTextEdit, QPushButton)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+from ._version import __version__
 
 
 class XArrayData1DPlotter(QMainWindow):
@@ -162,7 +166,7 @@ class XArrayData1DPlotter(QMainWindow):
         # clear the figure
         self.figure.clear()
         ax = self.figure.add_subplot(111)
-        da.plot(ax=ax, x=self.current_coord_name)
+        self.da.plot(ax=ax, x=self.current_coord_name)
         ax.set_title("Data")
         self.on_xlim_changed()
         self.on_ylim_changed()
@@ -221,7 +225,16 @@ class XArrayData1DPlotter(QMainWindow):
         self.canvas.draw()
 
 
-if __name__ == "__main__":
+def start(da):
+    """Start the application"""
+    app = QApplication(sys.argv)
+    window = XArrayData1DPlotter(da)
+    window.show()
+    sys.exit(app.exec_())
+
+
+def test():
+    """Test the application"""
     # create a sample xr.DataArray with dimensions time:
     da_iteration = xr.DataArray(np.linspace(0, 1, 11), dims='iteration')
     da_time = xr.DataArray(np.linspace(0, 13, 11), dims='iteration')
@@ -233,9 +246,22 @@ if __name__ == "__main__":
 
     da.to_netcdf('test.nc')
 
-    app = QApplication(sys.argv)
-    window = XArrayData1DPlotter(da)
-    window.show()
-    sys.exit(app.exec_())
+    start(da)
 
     pathlib.Path('test.nc').unlink()
+
+
+def cli():
+    """main command line interface function"""
+    parser = argparse.ArgumentParser(description='xrviz command line interface')
+    parser.add_argument('-V', '--version',
+                        action='version', version=f'%(prog)s {__version__}')
+    parser.add_argument('-f', '--file', type=str, help='path to netcdf file')
+    args = parser.parse_args()
+    if args.file:
+        da = xr.open_dataarray(args.file)
+        start(da)
+
+
+if __name__ == "__main__":
+    test()
