@@ -1,7 +1,7 @@
-xrviz
-=====
+xrgviz
+======
 
-Visualization of xarray data using PyQt5.
+XArray gui visualization is a visualization tool for xarray objects using PyQt5.
 
 
 *Note, that the repository is under current development!*
@@ -12,8 +12,8 @@ If you use `anaconda`, you may first create an environment:
 
 ::
 
-     conda create -n xrviz python=3.8
-     conda activate xrviz
+     conda create -n xrgviz python=3.8
+     conda activate xrgviz
 
 Navigate to the repository directory.
 
@@ -41,7 +41,7 @@ From the console:
 
 ::
 
-        xrviz -f <path-to-netcdf-file>
+        xrgviz -f <path-to-netcdf-file>
 
 
 

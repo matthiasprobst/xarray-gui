@@ -253,7 +253,7 @@ def test():
 
 def cli():
     """main command line interface function"""
-    parser = argparse.ArgumentParser(description='xrviz command line interface')
+    parser = argparse.ArgumentParser(description='xrgviz command line interface')
     parser.add_argument('-V', '--version',
                         action='version', version=f'%(prog)s {__version__}')
     parser.add_argument('-f', '--file', type=str, help='path to netcdf file')
